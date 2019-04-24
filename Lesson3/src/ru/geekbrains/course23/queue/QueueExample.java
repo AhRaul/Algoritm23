@@ -6,8 +6,9 @@ import ru.geekbrains.course23.stack.StackImpl;
 public class QueueExample {
 
     public static void main(String[] args) {
-        Queue<Integer> queue = new QueueImpl<>(3);
-        addIfNotFull(queue, 1);
+        //Queue<Integer> queue = new QueueImpl<>(3);
+        Queue<Integer> queue = new PriorityQueue<>(3);
+        addIfNotFull(queue, 5);
         addIfNotFull(queue, 2);
         addIfNotFull(queue, 3);
         addIfNotFull(queue, 4);

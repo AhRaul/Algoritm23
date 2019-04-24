@@ -5,8 +5,8 @@ public class QueueImpl<E> implements Queue<E> {
     public static final int DEFAULT_FRONT = 0;
     public static final int DEFAULT_REAR = -1;
 
-    private E[] data;
-    private int size;
+    protected E[] data;
+    protected int size;
 
     private int front;  //место удаления элементов
     private int rear;   //место добавления элементов
@@ -16,6 +16,10 @@ public class QueueImpl<E> implements Queue<E> {
         this.data = (E[]) new Object[maxSize];
         front = DEFAULT_FRONT;                              //авто вынос в константу ctrl+alt+c по выделенному числу;
         rear = DEFAULT_REAR;
+    }
+
+    protected QueueImpl(E[] data) {
+        this.data = data;
     }
 
     @Override
