@@ -100,4 +100,9 @@ public class SimpleLinkedListImpl<E> implements LinkedList<E>{
     public E getFirstElement() {
         return firstElement.getValue();
     }
+
+    @Override
+    public Entry<E> getFirst() {
+        return firstElement;
+    }
 }
