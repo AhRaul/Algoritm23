@@ -19,4 +19,6 @@ public interface LinkedList<E> {
     E getFirstElement();
 
     Entry<E> getFirst();
+
+    void setFirst(Entry<E> value);
 }

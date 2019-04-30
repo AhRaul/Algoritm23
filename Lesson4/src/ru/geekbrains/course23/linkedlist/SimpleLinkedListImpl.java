@@ -105,4 +105,12 @@ public class SimpleLinkedListImpl<E> implements LinkedList<E>{
     public Entry<E> getFirst() {
         return firstElement;
     }
+
+    @Override
+    public void setFirst(Entry<E> value) {
+        firstElement = value;
+        if (this.isEmpty()) {
+            size++;
+        }
+    }
 }

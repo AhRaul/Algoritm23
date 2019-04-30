@@ -59,9 +59,36 @@ public class TestIterator {
             current = current.getNext();
         }
 
+        //дз423 задание3
 //        for (Integer value : linkedList) {
 //            System.out.println(value);
 //        }
+
+        //дз423 задание 2
+        System.out.println("-----");
+
+        LinkedList<Integer> iterableList = new SimpleLinkedListImpl<>();
+        LinkIterator itr = new LinkIterator(iterableList);
+
+        itr.insertAfter(4);
+        itr.insertAfter(5);
+        itr.insertAfter(6);                      //  ??!! Почему такой порядок insertAfter  ??!!
+        itr.insertBefore(3);
+        itr.reset();                //сброс указателей (тут ничего не произошло)
+        itr.insertBefore(2);
+        itr.insertBefore(1);
+
+        itr.deleteCurrent();        //удаление последнего введенного значения (1)
+
+        itr.reset();                //сброс указателей (тут ничего не произошло)
+        itr.atEnd();                //проверка конца (тут ничего не произошло)
+        itr.nextLink();             //переход к следующему значению
+        itr.nextLink();             //переход к следующему значению
+
+        iterableList.display();
+
+        System.out.println(itr.getCurrent().getValue());    //вывод текущего значения (4)
+
     }
 
 }
