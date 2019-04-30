@@ -2,8 +2,8 @@ package ru.geekbrains.course23.linkedlist;
 
 public class SimpleLinkedListImpl<E> implements LinkedList<E>{
 
-    private Entry<E> firstElement;
-    private int size;
+    protected Entry<E> firstElement;
+    protected int size;
 
     @Override
     public void insert(E value) {
