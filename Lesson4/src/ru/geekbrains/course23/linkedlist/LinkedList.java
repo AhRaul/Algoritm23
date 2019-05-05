@@ -1,6 +1,6 @@
 package ru.geekbrains.course23.linkedlist;
 
-public interface LinkedList<E> {
+public interface LinkedList<E> extends Iterable<E> {
 
     void insert(E value);
 
