@@ -10,7 +10,7 @@ public class Packing {
 
     public static void main(String[] args) {
         //создаю сумку
-        Bag portfel = new Bag(4);
+        Bag portfel = new Bag(5);
 
         //создаю предметы для укладки в сумку
         Thing brick = new Thing(5, 17);
@@ -88,7 +88,7 @@ public class Packing {
 
     private static void runToAnagramm(Bag bag) {
         int tempPrice = 0;                              //хранение максимальной стоймости
-        for (int i = 0; i < result.size(); i++) {   //пробежка по анаграммам, упаковка
+        for (int i = 0; i < result.size(); i++) {       //пробежка по анаграммам, упаковка каждого с первого элемента
             for (int j = 0; j < things.length; j++) {
                 result.get(i)[j].putInABag(bag);
             }
