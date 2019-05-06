@@ -14,7 +14,7 @@ public class RecSortedArrayImpl<E extends Object & Comparable<? super E>> extend
 
         if (array.indexOf(10) != 0) throw new AssertionError();
         if (array.indexOf(20) != 1) throw new AssertionError();
-        if (array.indexOf(70) != 3) throw new AssertionError();
+        if (array.indexOf(70) != 2) throw new AssertionError();
     }
 
     @Override
