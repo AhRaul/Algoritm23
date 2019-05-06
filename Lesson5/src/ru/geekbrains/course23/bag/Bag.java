@@ -24,11 +24,11 @@ public class Bag {
     }
 
     public void setBagLoaded(int loaded) {
-        this.loaded = this.loaded + loaded;
+        this.loaded = loaded;
     }
 
     public void setBagPrice(int price) {
-        this.price = this.price + price;
+        this.price = price;
     }
 
     public void bagReset() {

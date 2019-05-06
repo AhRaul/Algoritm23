@@ -10,7 +10,7 @@ public class Packing {
 
     public static void main(String[] args) {
         //создаю сумку
-        Bag portfel = new Bag(5);
+        Bag portfel = new Bag(7);
 
         //создаю предметы для укладки в сумку
         Thing brick = new Thing(5, 17);
