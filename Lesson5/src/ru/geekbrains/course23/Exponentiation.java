@@ -14,7 +14,8 @@ public class Exponentiation {
         if (exponent < 0) {             //если степень отрицательная
             value = 1/value;
             exponent = exponent * (-1);
-        } else if(exponent == 1) {      //если степень равна 1
+        }
+        if(exponent == 1) {      //если степень равна 1
             return value;
         } else if(exponent == 0) {      //если степень равна 0
             return 1;
