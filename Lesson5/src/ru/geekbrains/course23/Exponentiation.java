@@ -8,6 +8,16 @@ public class Exponentiation {
         int exponent = 2; //25
 
         System.out.println(exponentiation(value, exponent));
+
+//        System.out.println(exponentiation(0, 0));   //неопределено
+        System.out.println(exponentiation(0, 2));   //0
+        System.out.println(exponentiation(0, -1));  //0
+        System.out.println(exponentiation(1, 0));   //1
+        System.out.println(exponentiation(1, -1));  //1
+        System.out.println(exponentiation(2, 2));   //4
+        System.out.println(exponentiation(10, -2)); //0.01
+        System.out.println(exponentiation(-3, 2));  //9
+        System.out.println(exponentiation(3, 1));   //3
     }
 
     private static double exponentiation(double value, int exponent) {
