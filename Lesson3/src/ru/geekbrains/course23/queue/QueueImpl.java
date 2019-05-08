@@ -8,8 +8,8 @@ public class QueueImpl<E> implements Queue<E> {
     protected E[] data;
     protected int size;
 
-    private int front;  //место удаления элементов
-    private int rear;   //место добавления элементов
+    public int front;  //место удаления элементов
+    public int rear;   //место добавления элементов
 
     @SuppressWarnings("unchecked")
     public QueueImpl(int maxSize) {
