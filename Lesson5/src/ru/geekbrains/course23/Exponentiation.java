@@ -17,8 +17,12 @@ public class Exponentiation {
         }
         if(exponent == 1) {      //если степень равна 1
             return value;
-        } else if(exponent == 0) {      //если степень равна 0
-            return 1;
+        } else if(exponent == 0) {      //если степень равна 0, то любое число, кроме нуля, равно единице
+            if (value != 0) {
+                return 1;
+            } else {
+                throw new IllegalArgumentException("Invalid rank " + exponent + " for value = 0");
+            }
         }
         try {
             return value * exponentiation(value, exponent - 1);
