@@ -2,6 +2,7 @@ package ru.geekbrains.course23;
 
 import java.util.Objects;
 
+//элемент
 public class Node<T extends Comparable<? super T>> {
 
     private final T value;
@@ -38,6 +39,10 @@ public class Node<T extends Comparable<? super T>> {
             throw new IllegalArgumentException("Not null value is required");
         }
         return anotherValue.compareTo(value) < 0;
+    }
+
+    public boolean isLeaf() {           //проверка элемента, лист ли это
+        return leftChild == null && rightChild == null;
     }
 
     @Override

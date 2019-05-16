@@ -15,6 +15,8 @@ public class Main6 {
         tree.add(32);
         tree.add(55);
 
+        tree.traverse(Tree.TraverseMode.POST_ORDER);
+
         tree.display();
 
         System.out.println("Find 60: " + tree.find(60));

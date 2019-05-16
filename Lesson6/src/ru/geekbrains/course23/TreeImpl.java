@@ -1,14 +1,12 @@
 package ru.geekbrains.course23;
 
-import javax.management.relation.InvalidRelationIdException;
-
 public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
 
-    private Node<E> root;
+    private Node<E> root;   //корень
 
     @Override
     public boolean add(E value) {
-        if ( root == null ) {
+        if ( isEmpty() ) {
             root = new Node<> (value);
             return true;
         }
@@ -19,8 +17,7 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
 
         if(previous.shouldBeLeft(value)) {
             previous.setLeftChild(new Node<> (value));
-        }
-        else {
+        } else {
             previous.setRightChild(new Node<> (value));
         }
 
@@ -29,7 +26,40 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
 
     @Override
     public boolean remove(E value) {
+        NodeAndPrevious nodeAndPrevious = doFind(value);
+        Node<E> removedNode = nodeAndPrevious.current;
+        Node<E> previous = nodeAndPrevious.previous;
+
+        if(removedNode == null) {
+            return false;
+        }
+
+        if( removedNode.isLeaf() ) {    //если узел пустой
+            if( removedNode == root ) { //если это корень
+                root = null;
+            } else if ( previous.getLeftChild() == removedNode ) {
+                previous.setLeftChild(null);
+            } else{
+                previous.setRightChild(null);
+            }
+        } else if (hasOnlySingleChildNode(removedNode)) {      //если есть только один дочерний элемент
+            Node<E> childNode = removedNode.getLeftChild() != null ? removedNode.getLeftChild() : removedNode.getRightChild();
+
+            if( removedNode == root ) {  //если это корень
+                root = null;
+            } else if ( previous.getLeftChild() == removedNode ) {
+                previous.setLeftChild(null);
+            } else{
+                previous.setRightChild(null);
+            }
+        }
+
         return false;
+    }
+
+    //проверка, один ли дочерний элемент у удаляемого элемента
+    private boolean hasOnlySingleChildNode(Node<E> removedNode) {
+        return currentNode.getLeftChild() != null ^ currentNode.getRightChild() != null;
     }
 
     @Override
@@ -60,12 +90,56 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return root == null;
     }
 
     @Override
     public void display() {
 
+    }
+
+    @Override
+    public void traverse(TraverseMode traverseMode) {
+        switch (traverseMode) {
+            case IN_ORDER:
+                inOrder(root);
+                break;
+            case PRE_ORDER:
+                preOrder(root);
+                break;
+            case POST_ORDER:
+                postOrder(root);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown traverse mode " + traverseMode);
+        }
+    }
+
+    private void inOrder(Node<E> node) {
+        if(node == null) {
+            return;
+        }
+        inOrder(node.getLeftChild());
+        System.out.println(node);
+        inOrder(node.getRightChild());
+    }
+
+    private void preOrder(Node<E> node) {
+        if(node == null) {
+            return;
+        }
+        System.out.println(node);
+        inOrder(node.getLeftChild());
+        inOrder(node.getRightChild());
+    }
+
+    private void postOrder(Node<E> node) {
+        if(node == null) {
+            return;
+        }
+        inOrder(node.getLeftChild());
+        inOrder(node.getRightChild());
+        System.out.println(node);
     }
 
     class NodeAndPrevious {
