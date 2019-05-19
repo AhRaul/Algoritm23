@@ -1,5 +1,7 @@
 package ru.geekbrains.course23;
 
+import java.util.Stack;
+
 public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
 
     private Node<E> root;   //корень
@@ -28,37 +30,70 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
     public boolean remove(E value) {
         NodeAndPrevious nodeAndPrevious = doFind(value);
         Node<E> removedNode = nodeAndPrevious.current;
-        Node<E> previous = nodeAndPrevious.previous;
+        Node<E> parent = nodeAndPrevious.previous;
 
         if(removedNode == null) {
             return false;
         }
 
-        if( removedNode.isLeaf() ) {    //если узел пустой
+        if( removedNode.isLeaf() ) {                           //если узел пустой
             if( removedNode == root ) { //если это корень
                 root = null;
-            } else if ( previous.getLeftChild() == removedNode ) {
-                previous.setLeftChild(null);
+            } else if ( parent.getLeftChild() == removedNode ) {
+                parent.setLeftChild(null);
             } else{
-                previous.setRightChild(null);
+                parent.setRightChild(null);
             }
         } else if (hasOnlySingleChildNode(removedNode)) {      //если есть только один дочерний элемент
-            Node<E> childNode = removedNode.getLeftChild() != null ? removedNode.getLeftChild() : removedNode.getRightChild();
+            Node<E> childNode = removedNode.getLeftChild() != null
+                    ? removedNode.getLeftChild()
+                    : removedNode.getRightChild();
 
             if( removedNode == root ) {  //если это корень
-                root = null;
-            } else if ( previous.getLeftChild() == removedNode ) {
-                previous.setLeftChild(null);
+                root = childNode;
+            } else if ( parent.getLeftChild() == removedNode ) {
+                parent.setLeftChild(childNode);
             } else{
-                previous.setRightChild(null);
+                parent.setRightChild(childNode);
             }
+        } else {                                            //если дочерних элементов несколько
+            Node<E> successor = getSuccessor(removedNode);  //идеальный кандидат под замену удаляемого элемента
+            if (removedNode == root) {                      //если удаляемый элемент - корень
+                root = successor;
+            }
+            else if (parent.getLeftChild() == removedNode) {
+                parent.setLeftChild(successor);
+            }
+            else {
+                parent.setRightChild(successor);
+            }
+            successor.setLeftChild(removedNode.getLeftChild());
         }
 
-        return false;
+        return true;
+    }
+
+    //метод подбора идеального кандидата для замены удаляемого элемента
+    private Node<E> getSuccessor(Node<E> removedNode) {
+        Node<E> successor = removedNode;
+        Node<E> successorParent = null;  //сохранение правого child удаляемого элемента
+        Node<E> current = removedNode.getRightChild();
+
+        while(current != null) {            //переход к самому нижнему лемому элементу
+            successorParent = successor;
+            successor = current;
+            current = current.getLeftChild();
+        }
+        if (successor != removedNode.getRightChild()) {
+            successorParent.setLeftChild(successor.getRightChild());    //перенос правых элементов из перенесенного левого
+            successor.setRightChild(removedNode.getRightChild());       //изменение rightChild для перенесенного наверх элемента вместо удаленного
+        }
+
+        return successor;
     }
 
     //проверка, один ли дочерний элемент у удаляемого элемента
-    private boolean hasOnlySingleChildNode(Node<E> removedNode) {
+    private boolean hasOnlySingleChildNode(Node<E> currentNode) {
         return currentNode.getLeftChild() != null ^ currentNode.getRightChild() != null;
     }
 
@@ -85,7 +120,7 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
             }
         }
 
-        return new NodeAndPrevious(current, previous);
+        return new NodeAndPrevious(null, previous);
     }
 
     @Override
@@ -95,7 +130,48 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
 
     @Override
     public void display() {
+        Stack<Node> globalStack = new Stack<>();
+        globalStack.push(root);
+        int nBlanks = 64;
 
+        boolean isRowEmpty = false;
+        System.out.println("......................................................");
+
+        while (!isRowEmpty) {
+            Stack<Node> localStack = new Stack<>();
+
+            isRowEmpty = true;
+            for(int i=0; i<nBlanks; i++){
+                System.out.print(" ");
+            }
+
+            while (!globalStack.isEmpty()) {
+                Node tempNode = globalStack.pop();
+                if (tempNode != null){
+                    System.out.print(tempNode.getValue());
+                    localStack.push(tempNode.getLeftChild());
+                    localStack.push(tempNode.getRightChild());
+                    if(tempNode.getLeftChild() != null || tempNode.getRightChild() != null){
+                        isRowEmpty = false;
+                    }
+                }else{
+                    System.out.print("--");
+                    localStack.push(null);
+                    localStack.push(null);
+                }
+                for(int j=0; j < nBlanks * 2 - 2; j++) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+
+            while (!localStack.isEmpty()) {
+                globalStack.push(localStack.pop());
+            }
+
+            nBlanks /= 2;
+        }
+        System.out.println("......................................................");
     }
 
     @Override

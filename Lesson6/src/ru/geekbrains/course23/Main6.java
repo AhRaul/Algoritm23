@@ -23,6 +23,9 @@ public class Main6 {
         System.out.println("Find 45: " + tree.find(45));
         System.out.println("Find 32: " + tree.find(32));
         System.out.println("Find 666: " + tree.find(666));
+
+        tree.remove(25);
+        tree.display();
     }
 
 }
