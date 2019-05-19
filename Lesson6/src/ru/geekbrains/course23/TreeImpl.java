@@ -28,37 +28,49 @@ public class TreeImpl<E extends Comparable<? super E>> implements Tree<E> {
     public boolean remove(E value) {
         NodeAndPrevious nodeAndPrevious = doFind(value);
         Node<E> removedNode = nodeAndPrevious.current;
-        Node<E> previous = nodeAndPrevious.previous;
+        Node<E> parent = nodeAndPrevious.previous;
 
         if(removedNode == null) {
             return false;
         }
 
-        if( removedNode.isLeaf() ) {    //если узел пустой
+        if( removedNode.isLeaf() ) {                           //если узел пустой
             if( removedNode == root ) { //если это корень
                 root = null;
-            } else if ( previous.getLeftChild() == removedNode ) {
-                previous.setLeftChild(null);
+            } else if ( parent.getLeftChild() == removedNode ) {
+                parent.setLeftChild(null);
             } else{
-                previous.setRightChild(null);
+                parent.setRightChild(null);
             }
         } else if (hasOnlySingleChildNode(removedNode)) {      //если есть только один дочерний элемент
-            Node<E> childNode = removedNode.getLeftChild() != null ? removedNode.getLeftChild() : removedNode.getRightChild();
+            Node<E> childNode = removedNode.getLeftChild() != null
+                    ? removedNode.getLeftChild()
+                    : removedNode.getRightChild();
 
             if( removedNode == root ) {  //если это корень
-                root = null;
-            } else if ( previous.getLeftChild() == removedNode ) {
-                previous.setLeftChild(null);
+                root = childNode;
+            } else if ( parent.getLeftChild() == removedNode ) {
+                parent.setLeftChild(childNode);
             } else{
-                previous.setRightChild(null);
+                parent.setRightChild(childNode);
             }
+        } else {                                            //если дочерних элементов несколько
+            //идеальный кандидат под замену удаляемого элемента
+            Node<E> successor = getSuccessor(removedNode);
         }
 
         return false;
     }
 
+    //метод подбора идеального кандидата для замены удаляемого элемента
+    private Node<E> getSuccessor(Node<E> removedNode) {
+        Node<E> successor = removedNode;
+        Node<E> successorParent = removedNode;  //сохранение правого child удаляемого элемента 1:55:55
+        return ;
+    }
+
     //проверка, один ли дочерний элемент у удаляемого элемента
-    private boolean hasOnlySingleChildNode(Node<E> removedNode) {
+    private boolean hasOnlySingleChildNode(Node<E> currentNode) {
         return currentNode.getLeftChild() != null ^ currentNode.getRightChild() != null;
     }
 
