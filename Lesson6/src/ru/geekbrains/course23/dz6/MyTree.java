@@ -10,4 +10,6 @@ public interface MyTree<E extends Comparable<? super E>> {
 
     boolean isEmpty();
 
+    boolean isFull();       //если достигнут установленный предел заполненности дерева
+
 }
