@@ -10,6 +10,8 @@ public class MyNode<T extends Comparable<? super T>> {
     private MyNode<T> leftChild;
     private MyNode<T> rightChild;
 
+    private int level;                  //уровень в древе
+
     public MyNode (T value) {
         this.value = value;
     }
@@ -40,6 +42,14 @@ public class MyNode<T extends Comparable<? super T>> {
 
     public void setParent(MyNode<T> parent) {
         this.parent = parent;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public boolean shouldBeLeft(T anotherValue) {       //если аргумент меньше this, то < 0 т.е. true, и агрументу стоит быть слева

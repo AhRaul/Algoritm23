@@ -17,6 +17,7 @@ public class MyTreeImpl<E extends Comparable<? super E>> implements MyTree<E> {
 
         if(isEmpty()) {                 //если дерево пустое
             root = new MyNode<>(value);
+            root.setLevel(1);
             nodeList.add(root);
             return true;
         }
@@ -25,7 +26,7 @@ public class MyTreeImpl<E extends Comparable<? super E>> implements MyTree<E> {
         MyNode<E> previousElement = currentPlace.getParent();
         int index = nodeList.indexOf(previousElement);               //индекс родительского элемента в массиве
 
-        if(find(value)) {  //если такой элемент уже присутствует в дереве
+        if(find(value)) {  //если такой элемент уже присутствует в дереве, то
             System.out.println("Такой элемент уже есть в дереве");
             return false;                                          //не добавлять
         } else {
@@ -33,9 +34,11 @@ public class MyTreeImpl<E extends Comparable<? super E>> implements MyTree<E> {
             if (previousElement.shouldBeLeft(value)) {              //если можно поместить элемент слева от родителя
                 previousElement.setLeftChild(tempValue);
                 nodeList.add(index, tempValue);           //помещаем в массив дубликат со сдвигом родительского элемента в массиве вправо
+                previousElement.getLeftChild().setLevel(previousElement.getLevel()+1);      //левому ребенку дать +1 лвл от родительского
             } else {
                 previousElement.setRightChild(tempValue);
                 nodeList.add(index+1, tempValue);           //помещаем в массив дубликат справа от родительского элемента в массиве
+                previousElement.getRightChild().setLevel(previousElement.getLevel()+1);      //правому ребенку дать +1 лвл от родительского
             }
         }
         //анализ баланса дерева (с каждой стороны не более одного элемента разницы)
@@ -98,6 +101,37 @@ public class MyTreeImpl<E extends Comparable<? super E>> implements MyTree<E> {
         }
     }
 
+    @Override
+    public boolean itsBalanced() {                       //запуск рекурсивного метода проверки баланса дерева
+        return balanceTest(root, nodeList.size());
+    }
+
+    /**
+     * Метод проверки баланса
+     *
+     * Принцип работы:
+     * 1. Каждый элемент поочереди рекурсивно рассматривается как корень.
+     * 2. у рассматриваемого корня справа количество наследников может отличаться не более чем на 1 элемент.
+     * 3.
+     * @param current
+     * @param size
+     * @return
+     */
+    private boolean balanceTest(MyNode<E> current, int size) {          //рекурсивный метод проверки баланса дерева
+        int currentID = nodeList.indexOf(current);                     //получение ID для рассчёта по порядковому номеру
+        if(size>=0 && current != null) {
+            if((size/2)-1 < currentID-1 || (size/2)-1 > currentID+1) {     //если справа или слева от current корня разница в количестве больше, чем на 1 элемент
+                return false;
+            } else {
+                System.out.println(current);
+                balanceTest(current.getLeftChild(), size - (currentID + 1));
+                return balanceTest(current.getRightChild(), size - (currentID + 1 - size));
+
+            }
+        }
+        return true;
+    }
+
     public void displayNodeList() {
         for(int i = 0; i < nodeList.size(); i++) {
             nodeList.get(i);
@@ -105,4 +139,6 @@ public class MyTreeImpl<E extends Comparable<? super E>> implements MyTree<E> {
         }
         System.out.println("\n" + nodeList.size());
     }
+
+
 }
