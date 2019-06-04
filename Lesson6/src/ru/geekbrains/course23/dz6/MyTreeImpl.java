@@ -94,16 +94,12 @@ public class MyTreeImpl<E extends Comparable<? super E>> implements MyTree<E> {
 
     @Override
     public boolean isFull() {
-        if(nodeList.size() >= MAX_QUANTITY_MODE) {
-            return true;
-        } else {
-            return false;
-        }
+        return nodeList.size() >= MAX_QUANTITY_MODE;
     }
 
     @Override
-    public boolean itsBalanced() {                       //запуск рекурсивного метода проверки баланса дерева
-        return balanceTest(root, nodeList.size());
+    public boolean totalBalanced() {                       //запуск рекурсивного метода проверки баланса дерева
+        return balanceTest(root);         //запуск стартовой позиции проверки баланса
     }
 
     /**
@@ -111,25 +107,44 @@ public class MyTreeImpl<E extends Comparable<? super E>> implements MyTree<E> {
      *
      * Принцип работы:
      * 1. Каждый элемент поочереди рекурсивно рассматривается как корень.
-     * 2. у рассматриваемого корня справа количество наследников может отличаться не более чем на 1 элемент.
-     * 3.
+     * 2. у рассматриваемого корня справа и слева количество наследников может отличаться не более чем на 1 элемент.
+     * 3. Необходимо выяснять общее количество элементов в рассматриваемом корне, и порядковый номер рассматриваемого корня, начиная отсчет с крайнего левого элемента в этом корне
      * @param current
-     * @param size
      * @return
      */
-    private boolean balanceTest(MyNode<E> current, int size) {          //рекурсивный метод проверки баланса дерева
+    private boolean balanceTest(MyNode<E> current) {          //рекурсивный метод проверки баланса дерева
         int currentID = nodeList.indexOf(current);                     //получение ID для рассчёта по порядковому номеру
-        if(size>=0 && current != null) {
-            if((size/2)-1 < currentID-1 || (size/2)-1 > currentID+1) {     //если справа или слева от current корня разница в количестве больше, чем на 1 элемент
+        if(current != null && currentID != nodeList.size()-1) {
+            if (((currentID - getLeftListID(current) + 1) < (getRightListID(current) - currentID))) {     //если справа или слева от current корня разница в количестве больше, чем на 1 элемент
+                return false;
+            } else if (((currentID - getLeftListID(current)) > (getRightListID(current) - currentID + 1))) {
                 return false;
             } else {
-                System.out.println(current);
-                balanceTest(current.getLeftChild(), size - (currentID + 1));
-                return balanceTest(current.getRightChild(), size - (currentID + 1 - size));
+                System.out.println(current + " " + currentID);
+                //balanceTest(current.getLeftChild(), getRightListID(current.getLeftChild())+1 - getLeftListID(current.getLeftChild()));
+                balanceTest(current.getLeftChild());
+                //return balanceTest(current.getRightChild(), getRightListID(current.getRightChild())+1 - getLeftListID(current.getRightChild()));
+                return balanceTest(current.getRightChild());
 
             }
         }
         return true;
+    }
+
+    //метод поиска индекса крайнего левого элемента рассматриваемого корня
+    private int getLeftListID (MyNode<E> currentRoot) {
+        if(!currentRoot.isLastLeftChild()) {
+            return getLeftListID(currentRoot.getLeftChild());
+        }
+        return nodeList.indexOf(currentRoot);
+    }
+
+    //метод поиска индекса крайнего правого элемента рассматриваемого корня
+    private int getRightListID (MyNode<E> currentRoot) {
+        if(!currentRoot.isLastRightChild()) {
+            return getRightListID(currentRoot.getRightChild());
+        }
+        return nodeList.indexOf(currentRoot);
     }
 
     public void displayNodeList() {

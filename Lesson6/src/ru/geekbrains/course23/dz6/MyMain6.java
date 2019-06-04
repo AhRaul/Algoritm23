@@ -29,6 +29,6 @@ public class MyMain6 {
         System.out.println("Find 65: " + myTree.find(65));
 
         ((MyTreeImpl<Integer>) myTree).displayNodeList();
-        System.out.println("Проверка баланса " + myTree.itsBalanced());
+        System.out.println("Проверка баланса " + myTree.totalBalanced());
     }
 }

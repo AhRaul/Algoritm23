@@ -19,7 +19,7 @@ public class BalanceTest {
     }
 
     @Test
-    public void test_value_exists(){
+    public void test_value_exists(){                //проверка наличия введенных в дерево элементов
         myTree.add(66);
         myTree.add(23);
         myTree.add(22);
@@ -39,5 +39,68 @@ public class BalanceTest {
         Assertions.assertEquals(false, myTree.find(0));            //проверка на равенство
     }
 
-    //написать тесты для запланированных вариантов деревьев
+    //различные варианты проветки баланса древьев
+    @Test
+    public void test_balance1(){
+        myTree.add(66);
+        myTree.add(23);
+        myTree.add(68);
+        Assertions.assertEquals(true, myTree.totalBalanced());            //проверка на равенство
+    }
+
+    @Test
+    public void test_balance2(){
+        myTree.add(66);
+        myTree.add(23);
+        myTree.add(68);
+        myTree.add(69);
+        myTree.add(67);
+        Assertions.assertEquals(false, myTree.totalBalanced());            //проверка на равенство
+    }
+
+    @Test
+    public void test_balance3(){
+        myTree.add(66);
+        myTree.add(23);
+        myTree.add(68);
+        myTree.add(67);
+        Assertions.assertEquals(true, myTree.totalBalanced());            //проверка на равенство
+    }
+
+    @Test
+    public void test_balance4(){
+        myTree.add(66);
+        myTree.add(23);
+        myTree.add(68);
+        myTree.add(69);
+        Assertions.assertEquals(true, myTree.totalBalanced());            //проверка на равенство
+    }
+
+    @Test
+    public void test_balance5(){
+        myTree.add(66);
+        myTree.add(23);
+        myTree.add(68);
+        myTree.add(22);
+        Assertions.assertEquals(true, myTree.totalBalanced());            //проверка на равенство
+    }
+
+    @Test
+    public void test_balance6(){
+        myTree.add(66);
+        myTree.add(23);
+        myTree.add(68);
+        myTree.add(24);
+        Assertions.assertEquals(true, myTree.totalBalanced());            //проверка на равенство
+    }
+
+    @Test
+    public void test_balance7(){
+        myTree.add(66);
+        myTree.add(23);
+        myTree.add(68);
+        myTree.add(24);
+        myTree.add(25);
+        Assertions.assertEquals(false, myTree.totalBalanced());            //проверка на равенство
+    }
 }

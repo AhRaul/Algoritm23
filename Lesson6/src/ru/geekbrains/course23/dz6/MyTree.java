@@ -12,6 +12,6 @@ public interface MyTree<E extends Comparable<? super E>> {
 
     boolean isFull();       //если достигнут установленный предел заполненности дерева
 
-    boolean itsBalanced();   //проверка баланса
+    boolean totalBalanced();   //проверка баланса
 
 }

@@ -63,6 +63,14 @@ public class MyNode<T extends Comparable<? super T>> {
         return leftChild == null && rightChild == null;
     }
 
+    public boolean isLastLeftChild() {       //проверить нет ли наследников
+        return leftChild == null;
+    }
+
+    public boolean isLastRightChild() {       //проверить нет ли наследников
+        return rightChild == null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
