@@ -98,8 +98,15 @@ public class MyTreeImpl<E extends Comparable<? super E>> implements MyTree<E> {
     }
 
     @Override
-    public boolean totalBalanced() {                       //запуск рекурсивного метода проверки баланса дерева
-        return balanceTest(root);         //запуск стартовой позиции проверки баланса
+    public boolean totalBalanced() {                       //запуск метода проверки баланса дерева
+        MyNode<E> currentRoot;
+        for(int i = 0; i < nodeList.size(); i++) {
+            currentRoot = nodeList.get(i);
+            if(!balanceTest(currentRoot)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -108,24 +115,19 @@ public class MyTreeImpl<E extends Comparable<? super E>> implements MyTree<E> {
      * Принцип работы:
      * 1. Каждый элемент поочереди рекурсивно рассматривается как корень.
      * 2. у рассматриваемого корня справа и слева количество наследников может отличаться не более чем на 1 элемент.
-     * 3. Необходимо выяснять общее количество элементов в рассматриваемом корне, и порядковый номер рассматриваемого корня, начиная отсчет с крайнего левого элемента в этом корне
+     * 3. расчёт количества ведется от индекса крайнего левого элемента в корне - до индекса корня.
+     * 4. и от индекса корня - до индекса крайнего правого элемента в этом корне.
+     * 5.  расстояния п.4 и п.5 сравниваются на соблюдение условия п.2.
      * @param current
      * @return
      */
-    private boolean balanceTest(MyNode<E> current) {          //рекурсивный метод проверки баланса дерева
-        int currentID = nodeList.indexOf(current);                     //получение ID для рассчёта по порядковому номеру
-        if(current != null && currentID != nodeList.size()-1) {
-            if (((currentID - getLeftListID(current) + 1) < (getRightListID(current) - currentID))) {     //если справа или слева от current корня разница в количестве больше, чем на 1 элемент
+    private boolean balanceTest(MyNode<E> current) {                                                            // метод проверки баланса корня
+        if(current != null) {
+            int currentID = nodeList.indexOf(current);                                                              //получение ID для рассчёта по порядковому номеру
+            if (((currentID - getLeftListID(current) + 1) < (getRightListID(current) - currentID))) {           //если справа или слева от current корня разница в количестве больше, чем на 1 элемент
                 return false;
             } else if (((currentID - getLeftListID(current)) > (getRightListID(current) - currentID + 1))) {
                 return false;
-            } else {
-                System.out.println(current + " " + currentID);
-                //balanceTest(current.getLeftChild(), getRightListID(current.getLeftChild())+1 - getLeftListID(current.getLeftChild()));
-                balanceTest(current.getLeftChild());
-                //return balanceTest(current.getRightChild(), getRightListID(current.getRightChild())+1 - getLeftListID(current.getRightChild()));
-                return balanceTest(current.getRightChild());
-
             }
         }
         return true;

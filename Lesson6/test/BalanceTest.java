@@ -29,78 +29,207 @@ public class BalanceTest {
 //        myTree.add(66);
         myTree.add(69);
         Assertions.assertEquals(true, myTree.find(66));            //проверка на равенство
-        Assertions.assertEquals(true, myTree.find(23));            //проверка на равенство
-        Assertions.assertEquals(true, myTree.find(22));            //проверка на равенство
-        Assertions.assertEquals(true, myTree.find(24));            //проверка на равенство
-        Assertions.assertEquals(true, myTree.find(68));            //проверка на равенство
-        Assertions.assertEquals(true, myTree.find(69));            //проверка на равенство
+        Assertions.assertEquals(true, myTree.find(23));
+        Assertions.assertEquals(true, myTree.find(22));
+        Assertions.assertEquals(true, myTree.find(24));
+        Assertions.assertEquals(true, myTree.find(68));
+        Assertions.assertEquals(true, myTree.find(69));
 
-        Assertions.assertEquals(false, myTree.find(100));            //проверка на равенство
-        Assertions.assertEquals(false, myTree.find(0));            //проверка на равенство
+        Assertions.assertEquals(false, myTree.find(100));
+        Assertions.assertEquals(false, myTree.find(0));
     }
 
     //различные варианты проветки баланса древьев
     @Test
-    public void test_balance1(){
-        myTree.add(66);
-        myTree.add(23);
-        myTree.add(68);
+    public void test_balance1_empty_tree(){                                                   //пустое древо
         Assertions.assertEquals(true, myTree.totalBalanced());            //проверка на равенство
     }
 
     @Test
-    public void test_balance2(){
+    public void test_balance2_just_root(){                                                    //корень без потомков
         myTree.add(66);
-        myTree.add(23);
-        myTree.add(68);
-        myTree.add(69);
-        myTree.add(67);
-        Assertions.assertEquals(false, myTree.totalBalanced());            //проверка на равенство
+        Assertions.assertEquals(true, myTree.totalBalanced());
     }
 
     @Test
     public void test_balance3(){
         myTree.add(66);
-        myTree.add(23);
-        myTree.add(68);
-        myTree.add(67);
-        Assertions.assertEquals(true, myTree.totalBalanced());            //проверка на равенство
+
+        myTree.add(65);             //Left
+
+        Assertions.assertEquals(true, myTree.totalBalanced());
     }
 
     @Test
-    public void test_balance4(){
+    public void test_balance4(){   //Mirror 3
         myTree.add(66);
-        myTree.add(23);
-        myTree.add(68);
-        myTree.add(69);
-        Assertions.assertEquals(true, myTree.totalBalanced());            //проверка на равенство
+
+        myTree.add(67);             //Right
+
+        Assertions.assertEquals(true, myTree.totalBalanced());
     }
 
     @Test
     public void test_balance5(){
         myTree.add(66);
-        myTree.add(23);
-        myTree.add(68);
-        myTree.add(22);
-        Assertions.assertEquals(true, myTree.totalBalanced());            //проверка на равенство
+
+        myTree.add(65);             //Left
+        myTree.add(67);
+
+        Assertions.assertEquals(true, myTree.totalBalanced());
     }
 
     @Test
     public void test_balance6(){
         myTree.add(66);
-        myTree.add(23);
-        myTree.add(68);
-        myTree.add(24);
-        Assertions.assertEquals(true, myTree.totalBalanced());            //проверка на равенство
+
+        myTree.add(65);             //Left
+        myTree.add(64);
+
+        Assertions.assertEquals(false, myTree.totalBalanced());
     }
 
     @Test
-    public void test_balance7(){
+    public void test_balance7(){   //Mirror 6
         myTree.add(66);
-        myTree.add(23);
+
+        myTree.add(67);             //Right
         myTree.add(68);
-        myTree.add(24);
-        myTree.add(25);
-        Assertions.assertEquals(false, myTree.totalBalanced());            //проверка на равенство
+
+        Assertions.assertEquals(false, myTree.totalBalanced());
+    }
+
+    @Test
+    public void test_balance8(){
+        myTree.add(66);
+
+        myTree.add(65);             //Left
+        myTree.add(64);
+
+        myTree.add(67);             //Right
+
+        Assertions.assertEquals(true, myTree.totalBalanced());
+    }
+
+    @Test
+    public void test_balance9(){   //Mirror 8
+        myTree.add(66);
+
+        myTree.add(65);             //Left
+        myTree.add(67);
+
+        myTree.add(68);             //Right
+
+        Assertions.assertEquals(true, myTree.totalBalanced());
+    }
+
+    @Test
+    public void test_balance10(){
+        myTree.add(66);
+
+        myTree.add(64);             //Left
+        myTree.add(65);
+        myTree.add(63);
+
+        myTree.add(67);             //Right
+
+        Assertions.assertEquals(false, myTree.totalBalanced());
+    }
+
+    @Test
+    public void test_balance11(){   //Mirror 10
+        myTree.add(66);
+
+        myTree.add(65);             //Left
+
+        myTree.add(68);             //Right
+        myTree.add(67);
+        myTree.add(69);
+
+        Assertions.assertEquals(false, myTree.totalBalanced());
+    }
+
+    @Test
+    public void test_balance12(){
+        myTree.add(66);
+
+        myTree.add(65);             //Left
+        myTree.add(64);
+        myTree.add(63);
+
+        myTree.add(68);             //Right
+        myTree.add(67);
+
+        Assertions.assertEquals(false, myTree.totalBalanced());
+    }
+
+    @Test
+    public void test_balance13(){
+        myTree.add(66);
+
+        myTree.add(65);             //Left
+        myTree.add(63);
+        myTree.add(64);
+
+        myTree.add(68);             //Right
+        myTree.add(67);
+
+        Assertions.assertEquals(false, myTree.totalBalanced());
+    }
+
+    @Test
+    public void test_balance14(){
+        myTree.add(66);
+
+        myTree.add(63);             //Left
+        myTree.add(65);
+        myTree.add(64);
+
+        myTree.add(67);             //Right
+        myTree.add(68);
+
+        Assertions.assertEquals(false, myTree.totalBalanced());
+    }
+
+    @Test
+    public void test_balance15(){   //Mirror 12
+        myTree.add(66);
+
+        myTree.add(64);             //Left
+        myTree.add(65);
+
+        myTree.add(67);             //Right
+        myTree.add(68);
+        myTree.add(69);
+
+        Assertions.assertEquals(false, myTree.totalBalanced());
+    }
+
+    @Test
+    public void test_balance16(){   //Mirror 13
+        myTree.add(66);
+
+        myTree.add(64);             //Left
+        myTree.add(65);
+
+        myTree.add(67);             //Right
+        myTree.add(68);
+        myTree.add(69);
+
+        Assertions.assertEquals(false, myTree.totalBalanced());
+    }
+
+    @Test
+    public void test_balance17(){   //Mirror 14
+        myTree.add(66);
+
+        myTree.add(65);             //Left
+        myTree.add(64);
+
+        myTree.add(69);             //Right
+        myTree.add(67);
+        myTree.add(68);
+
+        Assertions.assertEquals(false, myTree.totalBalanced());
     }
 }
